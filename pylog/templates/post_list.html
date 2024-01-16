@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href="{% static 'css/style.css' %}">
+    <script src='main.js'></script>
+</head>
+<body>
+    <div id = 'navbar'>
+        <span>pylog</span>
+        <a href="/posts/add/" class="btn btn-primary">글 작성</a>
+    </div>
+    <div id = 'post-list'>
+        <ul class= "posts">
+            {% for post in posts %}
+            <li class="post">
+                <div>
+                    <a href="/posts/{{post.id}}/">{{post.title}}</a>
+                </div>
+                
+                <p>{{post.content}}</p>
+                <!-- <div>{{post.comment_set.all}}</div> -->
+                <ul class="comments">
+                    {% for comment in post.comment_set.all %}
+                        <li class="comment">{{comment.content}}</li>
+                    {% empty %}
+                        <li class="comment-empty">아직 댓글이 없습니다</li>
+                    {% endfor %}
+                </ul>
+                {%if post.thumbnail %}
+                    <a href="/posts/{{post.id}}/"><img src="{{ post.thumbnail.url }}" alt=""></a>
+                {%else%}
+                <a href="/posts/{{post.id}}/">
+                    <img src="" alt="">
+                </a>
+                {%endif%}
+
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
